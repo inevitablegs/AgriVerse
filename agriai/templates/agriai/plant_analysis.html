@@ -1,0 +1,41 @@
+{% extends 'agriai/base.html' %}
+
+{% block title %}Plant Disease Analysis{% endblock %}
+
+{% block content %}
+<h1>Plant Disease Analysis</h1>
+
+{% if analysis %}
+    <h2>Image Analysis Results</h2>
+    <pre>{{ analysis }}</pre>
+    
+    {% if show_research %}
+    <form method="post">
+        {% csrf_token %}
+        <h3>Confirm or Add Symptoms</h3>
+        <textarea name="symptoms" rows="5" cols="50">{{ analysis }}</textarea><br>
+        <button type="submit">Research Disease</button>
+    </form>
+    {% endif %}
+{% elif research %}
+    <h2>Diagnosis & Recommendations</h2>
+    <pre>{{ research }}</pre>
+    <a href="{% url 'plant_analysis' %}">Analyze Another Plant</a>
+{% else %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2>Upload Plant Image</h2>
+        <input type="file" name="plant_image" accept="image/*"><br>
+        <button type="submit">Analyze Image</button>
+    </form>
+    
+    <h2>Or Describe Symptoms Manually</h2>
+    <form method="post">
+        {% csrf_token %}
+        <textarea name="symptoms" rows="5" cols="50" placeholder="Describe symptoms..."></textarea><br>
+        <button type="submit">Research Disease</button>
+    </form>
+{% endif %}
+
+<a href="{% url 'dashboard' %}">Back to Dashboard</a>
+{% endblock %}
