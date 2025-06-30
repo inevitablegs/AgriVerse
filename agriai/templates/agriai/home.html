@@ -1,0 +1,11 @@
+{% extends 'agriai/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1>Welcome to AgriAI</h1>
+<p>Your plant disease analysis assistant</p>
+{% if not user.is_authenticated %}
+<p>Please <a href="{% url 'signup' %}">sign up</a> or <a href="{% url 'login' %}">login</a> to access the dashboard.</p>
+{% endif %}
+{% endblock %}
